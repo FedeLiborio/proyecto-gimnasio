@@ -7,15 +7,13 @@ abstract class DeportistaInscripcionState {
   List<Object> get props => [];
 }
 
-//class DeportistaInscripcionInitial extends DeportistaInscripcionState{}
+class DeportistaInscripcionInitial extends DeportistaInscripcionState{}
 
 class DeportistaInscripcionLoading extends DeportistaInscripcionState{}
 
 class DeportistaAnotado extends DeportistaInscripcionState{}
 
 class DeportistaNoAnotado extends DeportistaInscripcionState{}
-
-class DeportistaEnCola extends DeportistaInscripcionState{}
 
 class DeportistaInscripcionFailure extends DeportistaInscripcionState{
   final String error;

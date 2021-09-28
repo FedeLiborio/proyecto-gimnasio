@@ -11,13 +11,27 @@ class DeportistaInscripcionBloc extends Bloc<DeportistaInscripcionEvent, Deporti
     if (event is InscribirseTurno){
       yield* mapInscribirseTurnoToState(event);
     }else if(event is CancelarTurno){
-      //yield
-    }else if(event is EntrarEnColaTurno){
-
+      yield* mapCancelarTurnoToState(event);
     }
   }
 
   Stream<DeportistaInscripcionState> mapInscribirseTurnoToState(InscribirseTurno event) async*{
+    yield DeportistaInscripcionLoading();
+    try{
+      await Future.delayed(const Duration(seconds: 1));
+      yield DeportistaAnotado();
+    }catch (e){
+      yield DeportistaInscripcionFailure(error: e.toString());
+    }
+  }
 
+  Stream<DeportistaInscripcionState> mapCancelarTurnoToState(CancelarTurno event) async*{
+    yield DeportistaInscripcionLoading();
+    try{
+      await Future.delayed(const Duration(seconds: 1));
+      yield DeportistaNoAnotado();
+    }catch (e){
+      yield DeportistaInscripcionFailure(error: e.toString());
+    }
   }
 }

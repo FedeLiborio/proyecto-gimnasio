@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/alta/alta.dart';
+import '../blocs/deportista_inscripcion/deportista_inscripcion.dart';
+
 class TurnosPage extends StatelessWidget {
   const TurnosPage({ Key? key }) : super(key: key);
 
@@ -26,7 +27,55 @@ class TurnosPage extends StatelessWidget {
     );
   }
 
+  @override
+  Widget build(BuildContext context) {
+    final _deportistaInscripcionBloc = BlocProvider.of<DeportistaInscripcionBloc>(context);
 
+    return SafeArea(
+      child: BlocBuilder<DeportistaInscripcionBloc, DeportistaInscripcionState>(
+        builder: (context, state){
+          if (state is DeportistaAnotado){
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:  [
+                Text('Ya estas anotado a un torneo'),
+                ElevatedButton(
+                  onPressed: (){
+                    _deportistaInscripcionBloc.add(CancelarTurno(id: "w"));
+                  }, 
+                  child: Text('Cancelar turno'),
+                ),
+              ],
+            );
+          }else if(state is DeportistaNoAnotado){
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:  [
+                const Text('No estás anotado a ningun turno'),
+                ElevatedButton(
+                  onPressed: (){
+                    _deportistaInscripcionBloc.add(InscribirseTurno(id: "s"));
+                  }, 
+                  child: const Text('Anotarse'),
+                ),
+              ],
+            );
+          }else if(state is DeportistaInscripcionFailure){
+            return Center(
+              child: Text("Ocurrio un error. " + state.error),
+            );
+          }
+          return const Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  /*/
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -52,7 +101,7 @@ class TurnosPage extends StatelessWidget {
       ],
     );
   }
-
+  */
   /*
   @override
   Widget build(BuildContext context) {
