@@ -1,0 +1,4 @@
+class Turno{
+  //DateTime fechaHora;
+
+}
